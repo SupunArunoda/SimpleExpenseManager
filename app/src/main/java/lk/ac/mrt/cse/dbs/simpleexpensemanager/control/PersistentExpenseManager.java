@@ -17,18 +17,11 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Account;
  */
 public class PersistentExpenseManager extends ExpenseManager {
     public PersistentExpenseManager(){
-
-        try {
             setup();
-        } catch (ExpenseManagerException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     @Override
-    public void setup() throws ExpenseManagerException {
+    public void setup() {
 
 
         TransactionDAO insqlransactions = new InSQLTransactionsDAO(CustomApplication.getCustomAppContext());

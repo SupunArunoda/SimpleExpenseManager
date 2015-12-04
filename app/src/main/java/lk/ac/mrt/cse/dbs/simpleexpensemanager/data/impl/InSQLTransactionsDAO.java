@@ -58,7 +58,6 @@ public class InSQLTransactionsDAO extends SQLiteOpenHelper implements Transactio
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 Transaction tansact=new Transaction(null,null,null,0);
@@ -74,8 +73,8 @@ public class InSQLTransactionsDAO extends SQLiteOpenHelper implements Transactio
                 transList.add(tansact);
             } while (cursor.moveToNext());
         }
-
-        // return contacnullt list
+        db.close();
+        // return transList list
         return transList;
     }
 
@@ -88,7 +87,7 @@ public class InSQLTransactionsDAO extends SQLiteOpenHelper implements Transactio
     public void onCreate(SQLiteDatabase db) {
         String MYdatabase = "CREATE TABLE " +TABLE_NAME+ " ("
                 + ACCOUNT_NO + " TEXT PRIMARY KEY, " +EXPENSE_TYPE+ " TEXT, "
-                +DATE+ " DATE," +AMOUNT+" DOUBLE"+ ")";
+                +DATE+ " DATE," +AMOUNT+" DOUBLE"+");";
         db.execSQL(MYdatabase);
     }
 

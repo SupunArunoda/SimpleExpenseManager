@@ -22,10 +22,6 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.ExpenseType;
 public class InSQLAccountDAO extends SQLiteOpenHelper implements AccountDAO {
 
     // Database Name
-
-
-
-    SQLiteDatabase dbme;
     private static final String DATABASE_NAME = "130383D";
     private static final int DATABASE_VERSION = 1;
 
@@ -42,20 +38,17 @@ public class InSQLAccountDAO extends SQLiteOpenHelper implements AccountDAO {
     }
     public List<String> getAccountNumbersList() {
         List<String> accoutNumtList = new ArrayList<>();
-
         String selectQuery = "SELECT "+ACCOUNT_NO+" FROM "+TABLE_NAME;
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 accoutNumtList.add(cursor.getString(0));
             } while (cursor.moveToNext());
         }
-
-        // return contacnullt list
+        // return accoutNumtList list
+        db.close();
         return accoutNumtList;
     }
 
@@ -68,7 +61,6 @@ public class InSQLAccountDAO extends SQLiteOpenHelper implements AccountDAO {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 Account account=new Account(null,null,null,0);
@@ -79,19 +71,17 @@ public class InSQLAccountDAO extends SQLiteOpenHelper implements AccountDAO {
                 accoutList.add(account);
             } while (cursor.moveToNext());
         }
-
-        // return contacnullt list
+        // return accoutList list
+        db.close();
         return accoutList;
     }
 
     @Override
     public Account getAccount(String accountNo) throws InvalidAccountException {
         String selectQuery = "SELECT "+BANK_HOLDER+" FROM "+TABLE_NAME+" WHERE "+ACCOUNT_NO+"="+accountNo;
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 Account account=new Account(null,null,null,0);
@@ -99,6 +89,7 @@ public class InSQLAccountDAO extends SQLiteOpenHelper implements AccountDAO {
                 account.setBankName(cursor.getString(1));
                 account.setAccountHolderName(cursor.getString(2));
                 account.setBalance(cursor.getDouble(3));
+                db.close();
                 return account;
             } while (cursor.moveToNext());
         }
@@ -115,7 +106,6 @@ public class InSQLAccountDAO extends SQLiteOpenHelper implements AccountDAO {
         values.put(INITIAL_BALANCE, account.getBalance());
         db.insert(TABLE_NAME, null, values);
         values.clear();
-
         db.close(); // Closing database connection
     }
 
@@ -139,7 +129,7 @@ public class InSQLAccountDAO extends SQLiteOpenHelper implements AccountDAO {
                 + ACCOUNT_NO + " TEXT PRIMARY KEY, " +BANK+ " TEXT, "
                 +BANK_HOLDER+ " TEXT," +INITIAL_BALANCE+" DOUBLE"+ ");";
         db.execSQL(MYdatabase);
-        dbme=db;
+
     }
 
     @Override
