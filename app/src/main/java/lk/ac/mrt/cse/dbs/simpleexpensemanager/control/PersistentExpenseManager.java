@@ -24,17 +24,25 @@ public class PersistentExpenseManager extends ExpenseManager {
     public void setup() {
 
 
-        TransactionDAO insqlransactions = new InSQLTransactionsDAO(CustomApplication.getCustomAppContext());
+        TransactionDAO insqlransactions = new InSQLTransactionsDAO();
         setTransactionsDAO(insqlransactions);
 
-        AccountDAO insqlaccount = new InSQLAccountDAO(CustomApplication.getCustomAppContext());
+        AccountDAO insqlaccount = new InSQLAccountDAO();
         setAccountsDAO(insqlaccount);
 
-        // dummy data
         Account dummyAcct1 = new Account("12345A", "Yoda Bank", "Anakin Skywalker", 10000.0);
         Account dummyAcct2 = new Account("78945Z", "Clone BC", "Obi-Wan Kenobi", 80000.0);
         getAccountsDAO().addAccount(dummyAcct1);
         getAccountsDAO().addAccount(dummyAcct2);
+
+
+
+
+        // dummy data
+        /*Account dummyAcct1 = new Account("12345A", "Yoda Bank", "Anakin Skywalker", 10000.0);
+        Account dummyAcct2 = new Account("78945Z", "Clone BC", "Obi-Wan Kenobi", 80000.0);
+        getAccountsDAO().addAccount(dummyAcct1);
+        getAccountsDAO().addAccount(dummyAcct2);*/
 
     }
 }
