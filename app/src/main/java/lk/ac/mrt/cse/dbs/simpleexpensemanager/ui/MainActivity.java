@@ -30,6 +30,8 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.ExpenseManager;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.InMemoryDemoExpenseManager;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.PersistentExpenseManager;
 
+import static lk.ac.mrt.cse.dbs.simpleexpensemanager.ui.RemoveAccountFragment.*;
+
 public class MainActivity extends AppCompatActivity {
     private ExpenseManager expenseManager;
     /**
@@ -91,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
                     return AddAccountFragment.newInstance(expenseManager);
                 case 2:
                     return ExpenseLogsFragment.newInstance(expenseManager);
+                case 3:
+                    return RemoveAccountFragment.newInstance(expenseManager);
                 default:
                     return ManageExpensesFragment.newInstance(expenseManager);
             }
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -111,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
                     return getString(R.string.label_add_account);
                 case 2:
                     return getString(R.string.label_logs);
+                case 3:
+                    return "Change";
                 default:
                     return getString(R.string.label_manage);
             }

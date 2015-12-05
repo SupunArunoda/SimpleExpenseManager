@@ -23,7 +23,7 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.CustomApplication;
 public class DBAccess {
 
     // Database Name
-    public static final String DATABASE_NAME = "130383D";
+    public static final String DATABASE_NAME = "130387D";
 
     //Database Version (Increase one if want to also upgrade your database)
     public static final int DATABASE_VERSION = 1;// started at 1

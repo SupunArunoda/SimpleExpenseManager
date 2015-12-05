@@ -25,7 +25,7 @@ public class InSQLAccountDAO implements AccountDAO {
 
 
     public List<String> getAccountNumbersList() {
-        ArrayList<String> accountNumbers = new ArrayList<>(); //Store the account numbers
+        ArrayList<String> accountNumbers = new ArrayList<>();
 
         SQLiteDatabase db = null;
         Cursor cursor = null;
@@ -33,10 +33,10 @@ public class InSQLAccountDAO implements AccountDAO {
             db = DBAccess.getWritableDatabase();
 
             cursor = db.query(DBAccess.ACCOUNT_TB, new String[]{DBAccess.ACCOUNT_NO}, null, null, null, null, null); // Get account numbers from the database
-            if (cursor.moveToFirst()) { // If records are found process them
+            if (cursor.moveToFirst()) {
                 do {
 
-                    accountNumbers.add(cursor.getString(0));// Add account numbers to the ArrayList
+                    accountNumbers.add(cursor.getString(0));
                 } while (cursor.moveToNext());
             }
         } catch (SQLiteException e) {
@@ -61,7 +61,7 @@ public class InSQLAccountDAO implements AccountDAO {
             db = DBAccess.getWritableDatabase();
 
             cursor = db.query(DBAccess.ACCOUNT_TB, null, null, null, null, null, null);// Get all accounts from the database
-            if (cursor.moveToFirst()) {// If records are found process them
+            if (cursor.moveToFirst()) {
                 do {
 
                     Account account = new Account(cursor.getString(0), cursor.getString(1), cursor.getString(2), Double.parseDouble(cursor.getString(3)));
@@ -88,14 +88,14 @@ public class InSQLAccountDAO implements AccountDAO {
         try {
             db = DBAccess.getWritableDatabase();
 
-            cursor = db.query(DBAccess.ACCOUNT_TB, null, DBAccess.ACCOUNT_NO + " = ?", new String[]{accountNo}, null, null, null);// Get specific account using account number
+            cursor = db.query(DBAccess.ACCOUNT_TB, null, DBAccess.ACCOUNT_NO + " = ?", new String[]{accountNo}, null, null, null);
             if (cursor != null) {
                 cursor.moveToFirst();
 
                 return new Account(cursor.getString(0), cursor.getString(1), cursor.getString(2), Double.parseDouble(cursor.getString(3)));
 
             } else {
-                String msg = "Accoun is invalid."; //If account not found
+                String msg = "Not a valid account ";
                 throw new InvalidAccountException(msg);
             }
         } catch (SQLiteException e) {
@@ -125,7 +125,7 @@ public class InSQLAccountDAO implements AccountDAO {
             values.put(DBAccess.BALANCE, account.getBalance()); // initial balance
 
             // Inserting Row
-            db.insert(DBAccess.ACCOUNT_TB, null, values); //Add new account to database
+            db.insert(DBAccess.ACCOUNT_TB, null, values);
         } catch (SQLiteException e) {
             e.printStackTrace();
         } finally {
@@ -150,8 +150,21 @@ public class InSQLAccountDAO implements AccountDAO {
 
     @Override
     public void updateBalance(String accountNo, ExpenseType expenseType, double amount) throws InvalidAccountException {
-        //SQLiteDatabase db = this.getWritableDatabase();
 
+        SQLiteDatabase db=null;
+        Account account=getAccount(accountNo);
+        db = DBAccess.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        switch (expenseType){
+            case EXPENSE:
+                contentValues.put(DBAccess.BALANCE,account.getBalance()-amount);
+                break;
+            case INCOME:
+                contentValues.put(DBAccess.BALANCE,account.getBalance()+amount);
+                break;
+        }
+        db.update(DBAccess.ACCOUNT_TB,contentValues,DBAccess.ACCOUNT_NO+"= ?",new String[]{accountNo});
     }
 
 

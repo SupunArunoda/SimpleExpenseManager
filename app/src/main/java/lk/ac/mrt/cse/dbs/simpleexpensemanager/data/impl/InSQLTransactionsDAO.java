@@ -37,20 +37,19 @@ public class InSQLTransactionsDAO implements TransactionDAO {
             db = DBAccess.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(DBAccess.TRANSACTION_ACCOUNT_NO, accountNo); // account number
-            values.put(DBAccess.TRANSACTION_DATE, DBAccess.getTimeAsString(date)); // date
+            values.put(DBAccess.TRANSACTION_ACCOUNT_NO, accountNo);
+            values.put(DBAccess.TRANSACTION_DATE, DBAccess.getTimeAsString(date));
             switch (expenseType) {
                 case EXPENSE:
-                    values.put(DBAccess.TRANSACTION_TYPE, "E"); // type
+                    values.put(DBAccess.TRANSACTION_TYPE, "E");
                     break;
                 case INCOME:
-                    values.put(DBAccess.TRANSACTION_TYPE, "I"); // type
+                    values.put(DBAccess.TRANSACTION_TYPE, "I");
                     break;
             }
-            values.put(DBAccess.TRANSACTION_AMOUNT, amount); //  amount
+            values.put(DBAccess.TRANSACTION_AMOUNT, amount);
 
-            // Inserting Row
-            db.insert(DBAccess.TRANSACTION_TB, null, values);// Log transaction to database
+            db.insert(DBAccess.TRANSACTION_TB, null, values);
         } catch (SQLiteException e) {
             e.printStackTrace();
         } finally {
@@ -68,8 +67,8 @@ public class InSQLTransactionsDAO implements TransactionDAO {
         try {
             db = DBAccess.getWritableDatabase();
 
-            cursor = db.query(DBAccess.TRANSACTION_TB, null, null, null, null, null, null); //Get all transactions from database
-            if (cursor.moveToFirst()) {// If records are found process them
+            cursor = db.query(DBAccess.TRANSACTION_TB, null, null, null, null, null, null);
+            if (cursor.moveToFirst()) {
                 do {
 
                     Transaction transaction = new Transaction(DBAccess.getTimeAsValue(cursor.getString(2)), cursor.getString(1), null, Double.parseDouble(cursor.getString(4)));
@@ -105,7 +104,7 @@ public class InSQLTransactionsDAO implements TransactionDAO {
         try {
             db = DBAccess.getWritableDatabase();
 
-            cursor = db.query(DBAccess.TRANSACTION_TB, null, null, null, null, null, DBAccess.TRANSACTION_ID + " DESC", String.valueOf(limit)); //Get specified number of transactions , order by descending order of date
+            cursor = db.query(DBAccess.TRANSACTION_TB, null, null, null, null, null, DBAccess.TRANSACTION_ID + " DESC", String.valueOf(limit));
             if (cursor.moveToFirst()) {
                 do {
                     Transaction transaction = new Transaction(DBAccess.getTimeAsValue(cursor.getString(2)), cursor.getString(1), null, Double.parseDouble(cursor.getString(4)));

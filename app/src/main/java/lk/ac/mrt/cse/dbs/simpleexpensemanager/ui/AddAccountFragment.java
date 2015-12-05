@@ -23,7 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.CustomApplication;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.R;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.ExpenseManager;
 
@@ -97,6 +99,8 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
                 if (currentExpenseManager != null) {
                     currentExpenseManager.addAccount(accountNumStr, bankNameStr, accountHolderStr,
                             Double.parseDouble(initialBalanceStr));
+                    Toast.makeText(CustomApplication.getCustomAppContext(), "Account with number " + accountNumStr + " has added to the system",
+                            Toast.LENGTH_LONG).show();
                 }
                 cleanUp();
                 break;
