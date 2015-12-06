@@ -17,15 +17,13 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.CustomApplication;
  * Created by Supun on 12/3/2015.
  */
 
-/**
- * this singleton class is used to get connection to SQLiteDatabase
- */
+
 public class DBAccess {
 
     // Database Name
-    public static final String DATABASE_NAME = "130387D";
+    public static final String DATABASE_NAME = "130383D";
 
-    //Database Version (Increase one if want to also upgrade your database)
+    //Database Version 
     public static final int DATABASE_VERSION = 1;// started at 1
 
 
